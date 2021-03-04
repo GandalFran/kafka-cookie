@@ -29,8 +29,8 @@ def behaviour():
 	
 	{% if cookiecutter.flow_producer == "yes" %}
 	# send or manage data
-	for d in processed:
-		producer.produce(processed)
+	for p in processed:
+		producer.produce(p)
 	{%- endif %}
 
 
