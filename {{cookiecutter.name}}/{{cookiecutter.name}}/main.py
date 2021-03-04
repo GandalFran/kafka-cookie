@@ -14,18 +14,17 @@ def behaviour():
 
 	# read or generate data
 	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = generator.process(){%- endif %}
-	if data is None or not data:
-		return
 
 	# manage data
 	processed = []
 	for d in data:
-		p = procesor.process(d['msg'])
-		processed.append(p)
+		if d is not None:
+			p = procesor.process(d['msg'])
+			processed.append(p)
 
 	# send or manage data
 	for d in processed:
-		{% if cookiecutter.flow_producer == "yes" %}producer.produce(data)	{% else %}manager.process(data){%- endif %}
+		{% if cookiecutter.flow_producer == "yes" %}producer.produce(processed)	{% else %}manager.process(processed){%- endif %}
 
 
 def run():
