@@ -12,15 +12,20 @@ procesor = DataProcessor()
 
 def behaviour():
 
-	# read or generate data
-	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = generator.process(){%- endif %}
+	{% if cookiecutter.flow_consumer == "yes" %}
+	# read data
+	data = consumer.consume()
 
 	# manage data
 	processed = []
 	for d in data:
 		if d is not None:
 			p = procesor.process(d['msg'])
-			processed.append(p)
+			processed.append({'msg':p})
+	{% else %}
+	# generate data
+	data = generator.process()
+	{%- endif %}
 
 	# send or manage data
 	for d in processed:
