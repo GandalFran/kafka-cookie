@@ -7,7 +7,7 @@ from {{cookiecutter.name}}.processing import DataProcessor
 
 {% if cookiecutter.flow_consumer == "yes" %}consumer = KafkaConsumer(config.KAFKA_INPUT_TOPICS, config.KAFKA_CONSUMER_SETTINGS){% else %}generator = DataProcessor(){%- endif %}
 procesor = DataProcessor()
-{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_PRODUCER_SETTINGS){% else %}handler = DataProcessor(){%- endif %}
+{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_PRODUCER_SETTINGS){% else %}manager = DataProcessor(){%- endif %}
 
 
 def behaviour():
