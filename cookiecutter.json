@@ -2,12 +2,12 @@
     "author": "Author",
     "email": "example@example.example",
     "name": "kafka-cookie-generated-package",
-    "kafka.num_tries": 10,
-    "kafka.input_topics": ["input-topic"],
-    "kafka.output_topics": ["output-topic"],
-    "kafka.group_id": "package_group_id",
-    "kafka.broker": "localhost:9092",
-    "kafka.delivery_timeout": 3000,
-    "flow.producer": "yes",
-    "flow.consumer": "yes"
+    "kafka_num_tries": 10,
+    "kafka_input_topics": ["input-topic"],
+    "kafka_output_topics": ["output-topic"],
+    "kafka_group_id": "package_group_id",
+    "kafka_broker": "localhost:9092",
+    "kafka_delivery_timeout": 3000,
+    "flow_producer": "yes",
+    "flow_consumer": "yes"
 }
