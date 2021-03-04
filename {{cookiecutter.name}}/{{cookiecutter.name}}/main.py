@@ -25,7 +25,7 @@ def behaviour():
 	for d in data:
 		if d is not None:
 			p = procesor.process(d['msg'])
-			processed.append({'msg':p})
+			processed.append(p)
 	
 	{% if cookiecutter.flow_producer == "yes" %}
 	# send or manage data
