@@ -27,7 +27,10 @@ class KafkaConsumer:
         while len(messages) < min_messages:
             msg = self._read_one()
             if msg is not None:
-                messages.append(json.loads(msg.value().decode('UTF-8')))
+                messages.append({
+                    'topic': msg.topic(),
+                    'msg': json.loads(msg.value().decode('UTF-8'))
+                })
         return messages
 
     def _read_one(self) -> Message:

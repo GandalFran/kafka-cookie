@@ -4,33 +4,28 @@ from {{cookiecutter.name}}.processing import DataProcessor
 {% if cookiecutter.flow_consumer == "yes" %}from {{cookiecutter.name}}.kafka import KafkaConsumer{%- endif %}
 {% if cookiecutter.flow_producer == "yes" %}from {{cookiecutter.name}}.kafka import KafkaProducer{%- endif %}
 
-{% if cookiecutter.flow_consumer == "no" %}
-def generate_data():
-	from time import sleep
-	sleep(10)
-	return {'mesage': 'Sample generated data'}
-{%- endif %}
-{% if not cookiecutter.flow_producer == "no" %}
-def manage_data(data):
-	print(f'managing data {data}')
-{%- endif %}
 
+{% if cookiecutter.flow_consumer == "yes" %}consumer = KafkaConsumer(config.KAFKA_INPUT_TOPICS, config.KAFKA_CONSUMER_SETTINGS){% else %}generator = DataProcessor(){%- endif %}
 procesor = DataProcessor()
-{% if cookiecutter.flow_consumer == "yes" %}consumer = KafkaConsumer(config.KAFKA_INPUT_TOPICS, config.KAFKA_SETTINGS){%- endif %}
-{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_SETTINGS){%- endif %}
+{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_PRODUCER_SETTINGS){% else %}handler = DataProcessor(){%- endif %}
 
 
 def behaviour():
-	# obtain data
-	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = generate_data(){%- endif %}
+
+	# read or generate data
+	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = generator.process(){%- endif %}
 	if data is None or not data:
 		return
 
 	# manage data
-	data = procesor.process(data)
+	processed = []
+	for d in data:
+		p = procesor.process(d['msg'])
+		processed.append(p)
 
-	# send data
-	{% if cookiecutter.flow_producer == "yes" %}producer.produce(data)	{% else %}manage_data(data){%- endif %}
+	# send or manage data
+	for d in processed:
+		{% if cookiecutter.flow_producer == "yes" %}producer.produce(data)	{% else %}manager.process(data){%- endif %}
 
 
 def run():

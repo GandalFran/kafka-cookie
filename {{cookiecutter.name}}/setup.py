@@ -17,6 +17,7 @@ def requirements(filename):
             reqs.append(line.strip())
     return reqs
 
+package_name = '{{ cookiecutter.name }}'.replace(' ','_').replace('-','_')
 
 setup(
     name='{{ cookiecutter.name }}',
@@ -34,7 +35,7 @@ setup(
     data_files=[],
     entry_points={
         'console_scripts': [
-            '{{ cookiecutter.name }}={{ cookiecutter.name }}.main:run'
+            f'{package_name}={package_name}.main:run'
         ],
     },
     include_package_data=True,

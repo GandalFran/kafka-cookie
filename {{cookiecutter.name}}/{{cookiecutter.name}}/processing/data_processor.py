@@ -3,6 +3,6 @@
 
 class DataProcessor:
 
-	def process(self, data):
+	def process(self, data=None):
 		print(f'processing in {{ cookiecutter.name }}: {data}')
 		return data
