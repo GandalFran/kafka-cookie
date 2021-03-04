@@ -5,16 +5,15 @@ from {{cookiecutter.name}}.processing import DataProcessor
 {% if cookiecutter.flow_producer == "yes" %}from {{cookiecutter.name}}.kafka import KafkaProducer{%- endif %}
 
 
-{% if cookiecutter.flow_consumer == "yes" %}consumer = KafkaConsumer(config.KAFKA_INPUT_TOPICS, config.KAFKA_CONSUMER_SETTINGS){% else %}generator = DataProcessor(){%- endif %}
 procesor = DataProcessor()
-{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_PRODUCER_SETTINGS){% else %}manager = DataProcessor(){%- endif %}
+{% if cookiecutter.flow_consumer == "yes" %}consumer = KafkaConsumer(config.KAFKA_INPUT_TOPICS, config.KAFKA_CONSUMER_SETTINGS){%- endif %}
+{% if cookiecutter.flow_producer == "yes" %}producer = KafkaProducer(config.KAFKA_OUTPUT_TOPICS, config.KAFKA_PRODUCER_SETTINGS){%- endif %}
 
 
 def behaviour():
 
-	{% if cookiecutter.flow_consumer == "yes" %}
-	# read data
-	data = consumer.consume()
+	# read or generate data
+	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = [{'msg': datetime.now().isoformat()}]{%- endif %}
 
 	# manage data
 	processed = []
@@ -22,14 +21,12 @@ def behaviour():
 		if d is not None:
 			p = procesor.process(d['msg'])
 			processed.append({'msg':p})
-	{% else %}
-	# generate data
-	data = generator.process()
-	{%- endif %}
-
+	
+	{% if cookiecutter.flow_producer == "yes" %}
 	# send or manage data
 	for d in processed:
-		{% if cookiecutter.flow_producer == "yes" %}producer.produce(processed)	{% else %}manager.process(processed){%- endif %}
+		producer.produce(processed)
+	{%- endif %}
 
 
 def run():
