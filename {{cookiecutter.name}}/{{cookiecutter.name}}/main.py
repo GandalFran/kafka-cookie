@@ -1,4 +1,8 @@
+# Copyright {% now 'local', '%Y' %} {{ cookiecutter.author }}
+# See LICENSE for details.
 
+from time import sleep
+from datetime import datetime
 from {{cookiecutter.name}} import config
 from {{cookiecutter.name}}.processing import DataProcessor
 {% if cookiecutter.flow_consumer == "yes" %}from {{cookiecutter.name}}.kafka import KafkaConsumer{%- endif %}
@@ -14,6 +18,7 @@ def behaviour():
 
 	# read or generate data
 	{% if cookiecutter.flow_consumer == "yes" %}data = consumer.consume(){% else %}data = [{'msg': datetime.now().isoformat()}]{%- endif %}
+	{% if cookiecutter.flow_consumer == "no" %}sleep(1){%- endif %}
 
 	# manage data
 	processed = []
