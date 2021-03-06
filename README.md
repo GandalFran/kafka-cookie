@@ -1,7 +1,7 @@
 # Kafka subsystem as Python Package Cookie
 
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/Kafka_portrait.jpg" height="300px" hspace="20">
+  <img src="https://github.com/GandalFran/kafka-cookie/blob/main/logo.png" height="300px" hspace="20">
 </div>
 
 ## Installation
